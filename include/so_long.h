@@ -6,7 +6,7 @@
 /*   By: danielg3 <danielg3@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/04 10:35:53 by danielg3          #+#    #+#             */
-/*   Updated: 2026/03/05 18:42:50 by danielg3         ###   ########.fr       */
+/*   Updated: 2026/03/06 17:21:25 by danielg3         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 # include "../minilibx-linux/mlx.h"
 # include "libft/libft.h"
-# include "get_next_line/get_next_line.h"
+# include "ft_printf/ft_printf.h"
 # include <fcntl.h> // open y close
 # include <stdio.h>
 
@@ -38,7 +38,7 @@ typedef struct s_img
 	void	*floor;
 	void	*wall;
 	void	*player;
-	void	*collect;
+	void	*collectible;
 	void	*exit;
 } t_images;
 
@@ -68,12 +68,17 @@ typedef struct s_game
 
 
 int	load_map(t_game *game, char *file);
+int	map_validator(t_game *game);
+int	check_walls(t_game *game);
+int	check_extension(char *file);
+int	check_path(t_game *game);
 void	free_map(t_game *game);
 
 int	init_game(t_game *game, char *map_file);
 int	handle_close(t_game *game);
 
 void	render(t_game *game);
+void	load_images(t_game *game);
 
 int	handle_keys(int keycode, t_game *game);
 

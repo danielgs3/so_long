@@ -6,7 +6,7 @@
 /*   By: danielg3 <danielg3@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 15:15:53 by danielg3          #+#    #+#             */
-/*   Updated: 2025/09/20 18:55:47 by danielg3         ###   ########.fr       */
+/*   Updated: 2026/03/06 11:29:25 by danielg3         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,13 +22,13 @@ char	*ft_read_till_newline(int fd, char *remainder)
 	if (!buffer)
 		return (ft_free_str(&remainder));
 	buffer[0] = '\0';
-	while (bytes > 0 && !ft_strchr(buffer, '\n'))
+	while (bytes > 0 && !gnl_strchr(buffer, '\n'))
 	{
 		bytes = read(fd, buffer, BUFFER_SIZE);
 		if (bytes > 0)
 		{
 			buffer[bytes] = '\0';
-			remainder = ft_strjoin(remainder, buffer);
+			remainder = gnl_strjoin(remainder, buffer);
 		}
 	}
 	ft_free_str(&buffer);
@@ -45,12 +45,12 @@ char	*ft_get_newline(char *remainder)
 
 	if (!remainder)
 		return (NULL);
-	newline = ft_strchr(remainder, '\n');
+	newline = gnl_strchr(remainder, '\n');
 	if (newline)
 		len = (newline - remainder) + 1;
 	else
-		len = ft_strlen(remainder);
-	line = ft_substr(remainder, 0, len);
+		len = gnl_strlen(remainder);
+	line = gnl_substr(remainder, 0, len);
 	if (line == NULL)
 		return (NULL);
 	return (line);
@@ -64,13 +64,13 @@ char	*ft_keep_remainder(char *remainder)
 
 	if (!remainder)
 		return (NULL);
-	newline = ft_strchr(remainder, '\n');
+	newline = gnl_strchr(remainder, '\n');
 	if (newline == NULL)
 		return (ft_free_str(&remainder));
 	len = (newline - remainder) + 1;
 	if (remainder[len] == '\0')
 		return (ft_free_str(&remainder));
-	new_remainder = ft_substr(remainder, len, ft_strlen(remainder) - len);
+	new_remainder = gnl_substr(remainder, len, gnl_strlen(remainder) - len);
 	if (new_remainder == NULL)
 		return (ft_free_str(&remainder));
 	ft_free_str(&remainder);
@@ -84,7 +84,7 @@ char	*get_next_line(int fd)
 
 	if (fd < 0)
 		return (NULL);
-	if (remainder == NULL || !ft_strchr(remainder, '\n'))
+	if (remainder == NULL || !gnl_strchr(remainder, '\n'))
 		remainder = ft_read_till_newline(fd, remainder);
 	if (!remainder)
 		return (NULL);
@@ -126,42 +126,3 @@ char	*get_next_line(int fd)
 //     close(fd);
 //     return 0;
 // }
-
-int	main(int argc, char *argv[])
-{
-	int		fd;
-	char	*line;
-	int		i;
-
-	i = 1;
-
-	//READ FROM A FILE
-	fd = open(argv[1], O_RDONLY);
-	if (fd == -1)
-	{
-		perror("Error when opening the file");
-		return (1);
-	}
-	while ((line = get_next_line(fd)) != NULL)
-	{
-		printf("linea %d: %s", i, line);
-		free(line);
-		i++;
-	}
-	close(fd);
-	//
-
-	//READ FROM STANDARD INPUT
-	fd = STDIN_FILENO;
-	while ((line = get_next_line(fd)) != NULL)
-	{
-		printf("line %d: %s", i, line);
-		free(line);
-		i++;
-	}
-	(void)argv;
-	//
-
-	(void)argc;
-	return (0);
-}
