@@ -1,35 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   map_checker2.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: danielg3 <danielg3@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/03/04 10:33:50 by danielg3          #+#    #+#             */
-/*   Updated: 2026/03/06 17:01:04 by danielg3         ###   ########.fr       */
+/*   Created: 2026/03/06 13:00:00 by danielg3          #+#    #+#             */
+/*   Updated: 2026/03/06 13:00:00 by danielg3         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
 
-int	main(int argc, char **argv)
+int	check_side_walls(t_game *game)
 {
-	t_game	game;
+	int	i;
 
-	if (argc != 2)
+	i = 0;
+	while (i < game->map.rows)
 	{
-		ft_putstr_fd("Usage : ./so_long <map.ber>\n", 2);
-		return (1);
+		if (game->map.grid[i][0] != WALL
+			|| game->map.grid[i][game->map.cols - 1] != WALL)
+		{
+			write(2, "Error\n Map not surrounded by walls.\n", 36);
+			return (-1);
+		}
+		i++;
 	}
-	if (init_game(&game, argv[1]) == -1)
-	{
-		ft_putstr_fd("Error initializing game. Check the map file.\n", 2);
-		return (1);
-	}
-	load_images(&game);
-	render(&game);
-	mlx_hook(game.win, 2, 1L << 0, handle_keys, &game);
-	mlx_hook(game.win, 17, 0, handle_close, &game);
-	mlx_loop(game.mlx);
 	return (0);
 }
