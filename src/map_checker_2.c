@@ -6,7 +6,7 @@
 /*   By: danielg3 <danielg3@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/06 17:30:00 by danielg3          #+#    #+#             */
-/*   Updated: 2026/03/06 17:21:24 by danielg3         ###   ########.fr       */
+/*   Updated: 2026/03/07 12:57:51 by danielg3         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int	check_extension(char *file)
 	len = ft_strlen(name);
 	if (len <= 4 || ft_strncmp(name + len - 4, ".ber", 4) != 0)
 	{
-		write(2, "Error\n Map must be a .ber file.\n", 32);
+		write(2, "Error\n-Map must be a .ber file.\n", 32);
 		return (-1);
 	}
 	return (0);
@@ -44,7 +44,7 @@ static int	check_h_walls(t_game *game)
 		if (game->map.grid[0][i] != WALL
 			|| game->map.grid[game->map.rows - 1][i] != WALL)
 		{
-			write(2, "Error\n Map not surrounded by walls.\n", 36);
+			write(2, "Error\n-Map not surrounded by walls.\n", 36);
 			return (-1);
 		}
 		i++;

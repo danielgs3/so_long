@@ -6,7 +6,7 @@
 /*   By: danielg3 <danielg3@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/04 14:51:55 by danielg3          #+#    #+#             */
-/*   Updated: 2026/03/06 17:39:57 by danielg3         ###   ########.fr       */
+/*   Updated: 2026/03/07 13:04:56 by danielg3         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,13 @@ static int	count_rows(char *file)
 	int		rows;
 	char	*line;
 
+	rows = 0;
 	fd = open(file, O_RDONLY);
 	if (fd < 0)
+	{
+		write(2, "Error\n-Could not open map file.\n", 32);
 		return (-1);
-	rows = 0;
+	}
 	line = get_next_line(fd);
 	while (line)
 	{
@@ -51,7 +54,7 @@ static int	fill_grid(t_game *game, char *file)
 	line = get_next_line(fd);
 	while (line)
 	{
-		game->map.grid[i] = ft_strtrim(line, "\n");
+		game->map.grid[i] = ft_strtrim(line, "\r\n");
 		free(line);
 		i++;
 		line = get_next_line(fd);
@@ -67,8 +70,13 @@ int	load_map(t_game *game, char *file)
 	if (check_extension(file) < 0)
 		return (-1);
 	game->map.rows = count_rows(file);
-	if (game->map.rows <= 0)
+	if (game->map.rows < 0)
 		return (-1);
+	if (game->map.rows == 0)
+	{
+		write(2, "Error\n-Map is empty.\n", 21);
+		return (-1);
+	}
 	game->map.grid = malloc(sizeof(char *) * (game->map.rows + 1));
 	if (game->map.grid == NULL)
 		return (-1);

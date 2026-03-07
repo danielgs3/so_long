@@ -6,7 +6,7 @@
 /*   By: danielg3 <danielg3@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/04 11:26:19 by danielg3          #+#    #+#             */
-/*   Updated: 2026/03/06 17:14:31 by danielg3         ###   ########.fr       */
+/*   Updated: 2026/03/07 17:22:54 by danielg3         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,14 +25,17 @@ int	handle_close(t_game *game)
 	exit(0);
 }
 
+int	handle_expose(t_game *game)
+{
+	render(game);
+	return (0);
+}
+
 int	init_game(t_game *game, char *map_file)
 {
 	ft_memset(game, 0, sizeof(t_game));
 	if (load_map(game, map_file) < 0)
-	{
-		write(2, "Error\n Invalid map file.\n", 26);
 		return (-1);
-	}
 	game->mlx = mlx_init();
 	if (game->mlx == NULL)
 	{

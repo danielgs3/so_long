@@ -6,7 +6,7 @@
 /*   By: danielg3 <danielg3@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/06 16:00:00 by danielg3          #+#    #+#             */
-/*   Updated: 2026/03/06 16:56:03 by danielg3         ###   ########.fr       */
+/*   Updated: 2026/03/07 12:57:01 by danielg3         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,8 @@ static void	flood_fill(char **map, int x, int y)
 	flood_fill(map, x, y - 1);
 }
 
-// Libera la copia del mapa
-static void	free_copy(char **copy)
+// Libera la copia y devuelve ret (permite usarlo en un return directo)
+static int	free_copy_r(char **copy, int ret)
 {
 	int	i;
 
@@ -54,44 +54,52 @@ static void	free_copy(char **copy)
 	while (copy[i])
 		free(copy[i++]);
 	free(copy);
+	return (ret);
 }
 
-// Devuelve -1 si algún C o E quedó sin alcanzar tras el flood
-static int	check_reachable(char **copy, t_game *game)
-{
-	int	y;
-	int	x;
-
-	y = 0;
-	while (y < game->map.rows)
-	{
-		x = 0;
-		while (copy[y][x])
-		{
-			if (copy[y][x] == COLLECTIBLE || copy[y][x] == EXIT)
-				return (-1);
-			x++;
-		}
-		y++;
-	}
-	return (0);
-}
-
-// Comprueba que todos los C y E son accesibles desde P
-int	check_path(t_game *game)
+// Reemplaza 'block' por 'rep', hace flood desde P y busca 'target' sin visitar
+static int	run_check(t_game *game, char block, char rep, char target)
 {
 	char	**copy;
+	int		y;
+	int		x;
 
 	copy = copy_map(game);
 	if (!copy)
 		return (-1);
-	flood_fill(copy, game->player_x, game->player_y);
-	if (check_reachable(copy, game) < 0)
+	y = -1;
+	while (++y < game->map.rows)
 	{
-		free_copy(copy);
-		write(2, "Error\n No valid path in map.\n", 29);
+		x = -1;
+		while (copy[y][++x])
+			if (copy[y][x] == block)
+				copy[y][x] = rep;
+	}
+	flood_fill(copy, game->player_x, game->player_y);
+	y = -1;
+	while (++y < game->map.rows)
+	{
+		x = -1;
+		while (copy[y][++x])
+			if (copy[y][x] == target)
+				return (free_copy_r(copy, -1));
+	}
+	return (free_copy_r(copy, 0));
+}
+
+// Pasada 1: E→muro → todas las C alcanzables sin pasar por E
+// Pasada 2: C→suelo → E alcanzable con todas las C recogidas
+int	check_path(t_game *game)
+{
+	if (run_check(game, EXIT, WALL, COLLECTIBLE) < 0)
+	{
+		write(2, "Error\n-Collectibles not reachable.\n", 35);
 		return (-1);
 	}
-	free_copy(copy);
+	if (run_check(game, COLLECTIBLE, FLOOR, EXIT) < 0)
+	{
+		write(2, "Error\n-Exit not reachable.\n", 27);
+		return (-1);
+	}
 	return (0);
 }

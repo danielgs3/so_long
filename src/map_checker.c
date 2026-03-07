@@ -6,7 +6,7 @@
 /*   By: danielg3 <danielg3@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/06 13:00:00 by danielg3          #+#    #+#             */
-/*   Updated: 2026/03/06 16:31:07 by danielg3         ###   ########.fr       */
+/*   Updated: 2026/03/07 13:18:56 by danielg3         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static int	check_chars(t_game *game)
 			if (c != FLOOR && c != WALL && c != COLLECTIBLE
 				&& c != EXIT && c != PLAYER)
 			{
-				write(2, "Error\n Invalid character in map.\n", 33);
+				write(2, "Error\n-Invalid character in map.\n", 33);
 				return (-1);
 			}
 			x++;
@@ -47,7 +47,7 @@ static int	check_rectangular(t_game *game)
 	{
 		if ((int)ft_strlen(game->map.grid[i]) != game->map.cols)
 		{
-			write(2, "Error\n Map is not rectangular.\n", 31);
+			write(2, "Error\n-Map is not rectangular.\n", 31);
 			return (-1);
 		}
 		i++;
@@ -85,7 +85,7 @@ static int	count_elements(t_game *game)
 	if (game->map.player_count != 1 || game->map.exit_count != 1
 		|| game->map.collectibles < 1)
 	{
-		write(2, "Error\n Invalid number of P, E or C.\n", 36);
+		write(2, "Error\n-Invalid number of P, E or C.\n", 36);
 		return (-1);
 	}
 	return (0);
