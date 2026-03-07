@@ -6,7 +6,7 @@
 /*   By: danielg3 <danielg3@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/04 10:35:53 by danielg3          #+#    #+#             */
-/*   Updated: 2026/03/06 17:21:25 by danielg3         ###   ########.fr       */
+/*   Updated: 2026/03/07 18:01:51 by danielg3         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,7 @@ void	free_map(t_game *game);
 
 int	init_game(t_game *game, char *map_file);
 int	handle_close(t_game *game);
+int	handle_expose(t_game *game);
 
 void	render(t_game *game);
 void	load_images(t_game *game);
