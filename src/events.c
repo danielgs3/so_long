@@ -6,7 +6,7 @@
 /*   By: danielg3 <danielg3@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/06 11:00:00 by danielg3          #+#    #+#             */
-/*   Updated: 2026/03/06 17:12:40 by danielg3         ###   ########.fr       */
+/*   Updated: 2026/03/09 15:14:33 by danielg3         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,17 +41,17 @@ static void	move_player(t_game *game, int nx, int ny)
 	}
 }
 
-int	handle_keys(int keycode, t_game *game)
+int	handle_keys(int keycode, t_game *game) // Maneja los eventos de pulsación de tecla
 {
-	if (keycode == 65307)
+	if (keycode == 65307) // Si la tecla pulsada es ESC (código 65307), llamamos a la función handle_close para cerrar el juego
 		handle_close(game);
-	else if (keycode == 119 || keycode == 65362)
+	else if (keycode == 119 || keycode == 65362) // Si la tecla pulsada es W (código 119) o la flecha hacia arriba (código 65362), intentamos mover al jugador hacia arriba llamando a la función move_player con las coordenadas (game->player_x, game->player_y - 1)
 		move_player(game, game->player_x, game->player_y - 1);
-	else if (keycode == 115 || keycode == 65364)
+	else if (keycode == 115 || keycode == 65364) // Si la tecla pulsada es S (código 115) o la flecha hacia abajo (código 65364), intentamos mover al jugador hacia abajo llamando a la función move_player con las coordenadas (game->player_x, game->player_y + 1)
 		move_player(game, game->player_x, game->player_y + 1);
-	else if (keycode == 97 || keycode == 65361)
+	else if (keycode == 97 || keycode == 65361) // Si la tecla pulsada es A (código 97) o la flecha hacia la izquierda (código 65361), intentamos mover al jugador hacia la izquierda llamando a la función move_player con las coordenadas (game->player_x - 1, game->player_y)
 		move_player(game, game->player_x - 1, game->player_y);
-	else if (keycode == 100 || keycode == 65363)
+	else if (keycode == 100 || keycode == 65363) // Si la tecla pulsada es D (código 100) o la flecha hacia la derecha (código 65363), intentamos mover al jugador hacia la derecha llamando a la función move_player con las coordenadas (game->player_x + 1, game->player_y)
 		move_player(game, game->player_x + 1, game->player_y);
 	return (0);
 }

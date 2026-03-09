@@ -6,7 +6,7 @@
 /*   By: danielg3 <danielg3@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/06 13:00:00 by danielg3          #+#    #+#             */
-/*   Updated: 2026/03/07 13:18:56 by danielg3         ###   ########.fr       */
+/*   Updated: 2026/03/09 15:27:17 by danielg3         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,14 +38,14 @@ static int	check_chars(t_game *game)
 	return (0);
 }
 
-static int	check_rectangular(t_game *game)
+static int	check_rectangular(t_game *game) // Comprobamos que el mapa sea rectangular
 {
 	int	i;
 
-	i = 1;
-	while (i < game->map.rows)
+	i = 1; // Comenzamos en la segunda fila, ya que la primera fila se usó para establecer el número de columnas (game->map.cols)
+	while (i < game->map.rows) // Comprobamos que todas las filas tengan la misma longitud
 	{
-		if ((int)ft_strlen(game->map.grid[i]) != game->map.cols)
+		if ((int)ft_strlen(game->map.grid[i]) != game->map.cols) // Si la longitud de la fila actual no coincide con el número de columnas establecido, el mapa no es rectangular
 		{
 			write(2, "Error\n-Map is not rectangular.\n", 31);
 			return (-1);
@@ -55,7 +55,7 @@ static int	check_rectangular(t_game *game)
 	return (0);
 }
 
-static void	check_tile(t_game *game, int x, int y)
+static void	check_tile(t_game *game, int x, int y) // Contamos el número de jugadores, objetos coleccionables y salidas, y guardamos la posición del jugador
 {
 	if (game->map.grid[y][x] == PLAYER)
 	{
