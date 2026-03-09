@@ -6,7 +6,7 @@
 /*   By: danielg3 <danielg3@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/04 10:35:53 by danielg3          #+#    #+#             */
-/*   Updated: 2026/03/07 18:01:51 by danielg3         ###   ########.fr       */
+/*   Updated: 2026/03/09 12:28:41 by danielg3         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 # define SO_LONG_H
 
 # include "../minilibx-linux/mlx.h"
-# include "libft/libft.h"
 # include "ft_printf/ft_printf.h"
+# include "libft/libft.h"
 # include <fcntl.h> // open y close
 # include <stdio.h>
 
@@ -40,47 +40,44 @@ typedef struct s_img
 	void	*player;
 	void	*collectible;
 	void	*exit;
-} t_images;
-
+}			t_images;
 
 typedef struct s_map
 {
-	char	**grid; // El mapa como una matriz de caracteres
-	int	rows; // Número de filas
-	int	cols; // Número de columnas
-	int	collectibles; // Número de objetos coleccionables
-	int	exit_count; // Número de salidas 'E' (solo 1)
-	int player_count; // Número de jugadores 'P' (solo 1)
-}	t_map;
-
+	char	**grid;
+	int		rows;
+	int		cols;
+	int		collectibles;
+	int		exit_count;
+	int		player_count;
+}			t_map;
 
 typedef struct s_game
 {
-	void	*mlx; // Conexión con X11 (devuelto por mlx_init)
-	void	*win; // La ventana (devuelto por mlx_new_window)
-	t_map	map; // El mapa completo
-	t_images	images; // Las imágenes para cada tipo de tile
-	int	player_x; // Posición X del jugador
-	int	player_y; // Posición Y del jugador
-	int	moves; // Contador de movimientos del jugador
-	int	collected; // Contador de objetos coleccionados
-}	t_game;
+	void		*mlx;
+	void		*win;
+	t_map		map;
+	t_images	images;
+	int			player_x;
+	int			player_y;
+	int			moves;
+	int			collected;
+}			t_game;
 
+int			load_map(t_game *game, char *file);
+int			map_validator(t_game *game);
+int			check_walls(t_game *game);
+int			check_extension(char *file);
+int			check_path(t_game *game);
+void		free_map(t_game *game);
 
-int	load_map(t_game *game, char *file);
-int	map_validator(t_game *game);
-int	check_walls(t_game *game);
-int	check_extension(char *file);
-int	check_path(t_game *game);
-void	free_map(t_game *game);
+int			init_game(t_game *game, char *map_file);
+int			handle_close(t_game *game);
+int			handle_expose(t_game *game);
 
-int	init_game(t_game *game, char *map_file);
-int	handle_close(t_game *game);
-int	handle_expose(t_game *game);
+void		render(t_game *game);
+void		load_images(t_game *game);
 
-void	render(t_game *game);
-void	load_images(t_game *game);
-
-int	handle_keys(int keycode, t_game *game);
+int			handle_keys(int keycode, t_game *game);
 
 #endif

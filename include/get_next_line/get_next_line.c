@@ -6,7 +6,7 @@
 /*   By: danielg3 <danielg3@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/17 15:15:53 by danielg3          #+#    #+#             */
-/*   Updated: 2026/03/06 11:29:25 by danielg3         ###   ########.fr       */
+/*   Updated: 2026/03/09 10:58:31 by danielg3         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,6 @@ char	*get_next_line(int fd)
 	remainder = ft_keep_remainder(remainder);
 	return (line);
 }
-
 
 // int main() {
 //     int fd = open("archivo.txt", O_RDONLY);
